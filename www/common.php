@@ -68,7 +68,7 @@ function setSettings($options=array()) {
  * Return the video capture settings as an array
  */
 function getSettings() {
-  if (!is_file(CAPTURE_SETTINGS)) set_settings();
+  if (!is_file(CAPTURE_SETTINGS)) setSettings();
   return json_decode(file_get_contents(CAPTURE_SETTINGS),true);
 }
 
