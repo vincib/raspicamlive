@@ -61,6 +61,7 @@ function stop_recording() {
     });
 }
 
+
 function save_title() {
     $.ajax({url: "action.php?action=savetitle",
 	    data: {"rectitle": $("#rectitle").val() },
@@ -69,4 +70,25 @@ function save_title() {
 		window.setTimeout('$("#savedtitle").html("")',5000);
 	    }
     });    
+}
+
+
+function reboot() {
+    if (confirm("Are you sure you want to REBOOT the raspilive cam?")) {
+	$.ajax({url: "action.php?action=reboot",
+		success: function(data) {
+		    $("#lastcommand").html(data);
+		}
+	       });
+    }
+}
+
+function shutdown() {
+    if (confirm("Are you sure you want to SHUTDOWN the raspilive cam?")) {
+	$.ajax({url: "action.php?action=shutdown",
+		success: function(data) {
+		    $("#lastcommand").html(data);
+		}
+	       });
+    }
 }

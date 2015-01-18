@@ -38,7 +38,7 @@ $avideobitrate=array("400","500","800","1000","2000","4000","8000","9000","10000
 $aaudiobitrate=array("64","96","128","192","256");
 ?>
             <div class="row">
-              <div class="col-md-6" role="main" id="capturecontrol">
+              <div class="col-md-6" role="main" id="settingsdiv">
 
 
         <h1>Video Settings</h1>
@@ -61,7 +61,17 @@ $aaudiobitrate=array("64","96","128","192","256");
 </form>
 
               </div><!-- col6 -->
-  <div class="col-md-6" role="main" id="capturecontrol">
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-4">
+
+<p>
+  <a href="#" onclick="reboot()" ><img src="assets/reboot.png" alt="Reboot" title="Reboot" /></a>
+  &nbsp; &nbsp;
+  <a href="#" onclick="shutdown()" ><img src="assets/shutdown.png" alt="Shutdown" title="Shutdown" /></a>
+</p>
+<p><span id="lastcommand"></span></p>
+
   </div>
 </div>
 

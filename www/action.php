@@ -59,5 +59,23 @@ case "savetitle":
   }
   echo "Title saved";
   break;
-  
+
+case "shutdown":
+  if (isRecording()) {
+    stopRecording();
+    sleep(5);
+  }
+  exec("sudo /sbin/poweroff");
+  echo "Shutdown in progress";
+  break;
+
+case "reboot":
+  if (isRecording()) {
+    stopRecording();
+    sleep(5);
+  }
+  exec("sudo /sbin/reboot");
+  echo "Reboot in progress";
+  break;
 }
+
