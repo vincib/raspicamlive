@@ -1,0 +1,40 @@
+#!/usr/bin/php
+<?php
+   /** 
+    * Update the CAPTURE_FILE screenshot of the video
+    * If you are using the FLASH preview version, you don't need that daemon.
+    * note: the flash version only remux the ts into a f4v, it's lighter than extracting picture for the Raspberry CPU
+    * NOTE: PLEASE launch this script with a nice value of 10 !
+    */
+
+chdir("/var/www/sh");
+require_once("../www/common.php");
+
+define("CAPTURE_FILE_TMP",str_replace(".jpg",".tmp.jpg",CAPTURE_FILE));
+
+while (true) {
+  $d=opendir(STORAGEPATH."/current");
+  $flist=array();
+  while (($c=readdir($d))!==false) {
+    if (preg_match('#^([0-9]{9})\.ts$#',$c,$mat)) {
+      $flist[intval($mat[1])]=$c;
+    }
+  }
+  closedir($d);
+  ksort($flist);
+  if (!count($flist)) {
+    sleep(5);
+    continue;
+  }
+
+  // We take not the last element, but the one before:
+  $file=array_pop($flist);
+  if (count($flist))   $file=array_pop($flist);
+  $cmd="/usr/local/bin/ffmpeg -i ".escapeshellarg(STORAGEPATH."/current/".$file)." -r 1 -t 1 -f image2 -y ".escapeshellarg(CAPTURE_FILE_TMP)." </dev/null >/dev/null 2>&1";
+  // Overwrite existing capture file with new one
+  $out=array();
+  exec($cmd,$out,$ret);
+  rename(CAPTURE_FILE_TMP,CAPTURE_FILE);
+  sleep(1);
+}
+

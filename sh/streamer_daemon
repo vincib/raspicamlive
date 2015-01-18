@@ -1,0 +1,62 @@
+#!/usr/bin/php
+<?php
+   /**
+    * Update the STORAGEPATH/current folder
+    * so that the RSYNC client can get the last minute of the video 
+    * uses hardlinks
+    */
+
+chdir("/var/www/sh");
+require_once("../www/common.php");
+
+/**
+ * Maintain a STORAGEPATH/current folder
+ * with the 3 latest .TS files from the current project
+ */ 
+$current_project="";
+
+while (true) {
+  $project=@file_get_contents(RECORDING_FOLDER);
+  if ($project!=$current_project) {
+    // New project, purge STORAGEPATH/current
+    $d=opendir(STORAGEPATH."/current");
+    while (($c=readdir($d))!==false) {
+      if (is_file(STORAGEPATH."/current/".$c)) @unlink(STORAGEPATH."/current/".$c);
+      echo "purged\n";
+    }
+    closedir($d);
+    $current_project=$project;
+  }
+
+  if (!$project) {
+    sleep(5);
+    continue;
+  }
+
+  // hardlink to files in current project written less than a minute ago.
+  $d=opendir(STORAGEPATH."/".$current_project);
+  while (($c=readdir($d))!==false) {
+    if (is_file(STORAGEPATH."/".$current_project."/".$c) && 
+	filemtime(STORAGEPATH."/".$current_project."/".$c)>(time()-60)  &&
+	!is_file(STORAGEPATH."/current/".$c) 
+	) {
+      link(STORAGEPATH."/".$current_project."/".$c, STORAGEPATH."/current/".$c);
+      echo "linked ".$c."\n";
+    }
+  }
+  closedir($d);
+
+  // delete hardlinks older than a minute
+  $d=opendir(STORAGEPATH."/current");
+  while (($c=readdir($d))!==false) {
+    if (is_file(STORAGEPATH."/current/".$c) && filemtime(STORAGEPATH."/current/".$c)<(time()-60)) {
+      unlink(STORAGEPATH."/current/".$c);
+      echo "unlinked ".$c."\n";
+    }
+  }
+  closedir($d);
+
+  sleep(5);
+  echo "loop\n";
+}
+

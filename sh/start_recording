@@ -1,0 +1,12 @@
+#!/usr/bin/php
+<?php
+
+require_once("../www/common.php");
+
+$cmd="start-stop-daemon --start --pidfile ".escapeshellarg(RASPIVID_PID)
+  ." --background --make-pidfile --exec "
+  ."/var/www/sh/capture_daemon 2>&1";
+  
+  passthru($cmd,$ret);
+  exit($ret);
+
