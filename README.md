@@ -35,5 +35,11 @@ use a browser to go to this (or your raspberry hostname)
 
 enjoy!
 
+Screenshots
+-----------
+
+![](https://github.com/vincib/raspicamlive/blob/master/doc/cap1.png)
+
+![](https://github.com/vincib/raspicamlive/blob/master/doc/cap2.png)
 
 
