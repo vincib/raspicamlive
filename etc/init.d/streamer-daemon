@@ -1,8 +1,8 @@
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:          streamer-daemon
-# Required-Start:    local_fs 
-# Required-Stop:     local_fs 
+# Required-Start:    $ALL 
+# Required-Stop:     $ALL
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Description:       In raspicamlive, creates the small buffer of videos to stream
