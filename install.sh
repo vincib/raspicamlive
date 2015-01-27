@@ -70,12 +70,10 @@ apt_get php5-cli
 apt_get screen
 apt_get ffmpeg
 apt_get libass-dev
+apt_get libasound-dev
 apt_get libavcodec-extra
 apt_get libfdk-aac-dev
 apt_get libmp3lame-dev
-apt_get libopus-dev
-apt_get libtheora-dev
-apt_get libvorbis-dev
 apt_get libvpx-dev
 apt_get libx264-dev
 
