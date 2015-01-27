@@ -171,7 +171,7 @@ a2ensite raspicamlive
 service apache2 restart
 
 ## Configure daemon
-copy "$TMP_PATH/etc/init.d/streamer_daemon" /etc/init.d
+copy "$TMP_PATH/etc/init.d/streamer-daemon" /etc/init.d
 update-rc.d streamer_daemon defaults
 /etc/init.d/streamer_daemon start
 
