@@ -1,3 +1,0 @@
-
-www-data	ALL = NOPASSWD : /var/www/sh/start_recording, /var/www/sh/stop_recording, /sbin/poweroff, /sbin/reboot
-

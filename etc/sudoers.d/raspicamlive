@@ -1,0 +1,3 @@
+
+www-data	ALL = NOPASSWD : /usr/local/lib/raspicamlive/sh/start_recording, /usr/local/lib/raspicamlive/sh/stop_recording, /sbin/poweroff, /sbin/reboot
+

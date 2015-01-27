@@ -1,6 +1,8 @@
 <?php
 
 require_once("config.php");
+$app_path = realpath(__DIR__."/../");
+
 
 
 // Error codes
@@ -20,7 +22,7 @@ function startRecording() {
   if (isRecording()) {
     return E_ALREADY;
   }
-  exec("sudo /var/www/sh/start_recording");
+  exec("sudo ${app_path}/sh/start_recording");
   if (isRecording()) {
     return E_OK;
   } else {
@@ -32,7 +34,7 @@ function stopRecording() {
   if (!isRecording()) {
     return E_ALREADY;
   }
-  exec("sudo /var/www/sh/stop_recording");
+  exec("sudo ${app_path}/sh/stop_recording");
   sleep(1);
   if (!isRecording()) {
     return E_OK;

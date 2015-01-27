@@ -7,7 +7,8 @@
     * NOTE: PLEASE launch this script with a nice value of 10 !
     */
 
-chdir("/var/www/sh");
+chdir(__DIR__);
+
 require_once("../www/common.php");
 
 define("CAPTURE_FILE_TMP",str_replace(".jpg",".tmp.jpg",CAPTURE_FILE));

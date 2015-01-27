@@ -1,0 +1,5 @@
+# French servers, see http://deb-multimedia.org/debian-m for a full list
+# Choose according to your need
+# @todo use lsb-release to handle the correct version
+deb http://mirror.home-dn.net/debian-multimedia wheezy main
+deb-src http://mirror.home-dn.net/debian-multimedia wheezy main

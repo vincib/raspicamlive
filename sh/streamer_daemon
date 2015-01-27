@@ -6,7 +6,7 @@
     * uses hardlinks
     */
 
-chdir("/var/www/sh");
+chdir(__DIR__);
 require_once("../www/common.php");
 
 /**

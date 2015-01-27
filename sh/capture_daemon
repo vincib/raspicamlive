@@ -4,7 +4,7 @@
     * Capture the video in a new folder in STORAGEPATH
     */
 
-chdir("/var/www/sh");
+chdir(__DIR__);
 require_once("../www/common.php");
 
 $options=getSettings();
@@ -27,7 +27,7 @@ mkdir(STORAGEPATH."/".$folder);
 setProjectMetadata(array("start_time"=>time()));
 $audiocmd="";
 if ($options["audiosource"]) {
-  $audiocmd="-f alsa -itsoffset 6.5 -ac 1 -i ".$options["audiosource"]." -acodec aac -strict -2";
+  $audiocmd="-f alsa -itsoffset 6.5 -ac 1 -acodec aac -strict -2 -i ".$options["audiosource"];
 }
 
 $cmd="/usr/bin/raspivid -ih -fps ".intval($options["fps"])." -t 0 -w ".intval($options["width"])." -h ".intval($options["height"])." -b ".intval($options["videobitrate"]*1000)." -pf baseline -o - |

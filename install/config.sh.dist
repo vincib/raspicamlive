@@ -1,0 +1,13 @@
+
+# Change to 1 for verbose output
+DEBUG=0
+# Change to 1 for fake/test install
+DRY_RUN=0
+
+TMP_PATH="/tmp/raspicamlive"
+TMP_ETC="${TMP_PATH}/etc"
+
+
+BASH_NAME=${0##*/}
+MY_PID=$(echo $$)
+APP_PATH=$(readlink -f $( dirname "${BASH_SOURCE[0]}" )"/../")
