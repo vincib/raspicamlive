@@ -15,8 +15,8 @@ cd $(readlink -f $( dirname "${BASH_SOURCE[0]}" ))
 crash(){ echo $1; exit 1; }
 raw_apt(){ dpkg-query -s "$1" 2>/dev/null 1>/dev/null; [ 0 -eq $? ] || apt-get install -y "$1"; }
 
-# check_path
-[ "$(pwd)" == "/usr/local/lib/raspicamlive ] || crash "You must install this package in /usr/local/lib/raspicamlive. Exiting."
+# check_path
+[ "$(pwd)" == "/usr/local/lib/raspicamlive ] || crash "You must install this package in /usr/local/lib/raspicamlive. Exiting."
 
 # check_is_root
 [ "root" == "$( whoami )" ] || crash "You must run this script as root. Exiting."
@@ -53,7 +53,7 @@ rsync -a "$APP_PATH/etc" "$TMP_PATH" > /dev/null
 DEB_MULTIMEDIA_SOURCE="/etc/apt/sources.list.d/deb.multimedia.list "
 copy "${TMP_PATH}${DEB_MULTIMEDIA_SOURCE}" "$DEB_MULTIMEDIA_SOURCE" 
 
-# apt-get update
+apt-get update
 
 # required packages
 apt_get sudo
@@ -86,7 +86,7 @@ if [ $? -ne 0 ] ; then
 else 
     PARTITION_TYPE=$(file -sL /dev/sda1 | sed -r 's/^(.*?)(ext[2-4])(.*?)$/\2/g')
     if [ -z $PARTITION_TYPE ] ; then 
-        ask "Your USB disk is not valid. Would you like to format it now? (Y/n)"
+        ask "Your USB disk is not valid. Would you like to format it now? [Y/n]"
         warn "This will remove all the data available on the disk."
         read DO_FORMAT
         case $DO_FORMAT in
@@ -102,7 +102,7 @@ fi
 grep "^/dev/sda1" /etc/fstab 2>/dev/null >/dev/null
 if [ $? -ne 0 ] ; then
 
-    ask "Do you want your usb drive to be automatically mounted in /mnt? (Y/n)"
+    ask "Do you want your usb drive to be automatically mounted in /mnt? [Y/n]"
     read DO_MOUNT
     case $DO_MOUNT in
         [Nn] ) ;;
@@ -128,8 +128,8 @@ else
 
 fi
 
-# Ensure the /mnt/current directory exist
-[ -d "/mnt/current" ] || mkdir "/mnt/current"
+# Ensure the /mnt/current directory exist
+[ -d "/mnt/current" ] || mkdir "/mnt/current"
 [ $? -eq 0 ] || warn "Could not create the /mnt/current directory. Troubles ahead."
 
 
@@ -153,10 +153,10 @@ service avahi-daemon restart
 
 ## Configure apache
 
-# Disable the default website
+# Disable the default website
 a2dissite default
 
-# Make sure the files are owned by the server
+# Make sure the files are owned by the server
 chown -R www-data: "${APP_PATH}/www"
 copy "${TMP_PATH}/etc/apache2/sites-enabled/raspicamlive" /etc/apache2/sites-enabled/raspicamlive
 
