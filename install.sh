@@ -162,8 +162,12 @@ a2dissite default
 
 # Make sure the files are owned by the server
 chown -R www-data: "${APP_PATH}/www"
-copy "${TMP_PATH}/etc/apache2/sites-enabled/raspicamlive" /etc/apache2/sites-enabled/raspicamlive
+copy "${TMP_PATH}/etc/apache2/sites-available/raspicamlive" /etc/apache2/sites-available/raspicamlive
 
+# Enable the site
+a2ensite raspicamlive
+
+# Restart Apache
 service apache2 restart
 
 ## Configure daemon
