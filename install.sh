@@ -37,7 +37,7 @@ raw_apt gettext
 source "install/utilities.sh"
 source "install/lib.sh"
 
-if [ ! -f "config.sh" ] ; then
+if [ ! -f "install/config.sh" ] ; then
     cp "install/config.sh.dist" "install/config.sh"
 fi;
 source "install/config.sh"
