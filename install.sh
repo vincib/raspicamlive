@@ -121,10 +121,8 @@ mount -a
 
 # Check USB disk is mounted, readable, etc.
 MOUNTED=$(mount | grep "/mnt")
-if [ -z $MOUNTED ] ; then 
-    
+if [ -z "$MOUNTED" ] ; then 
     warn "Your USB disk does not seem to mounted."
-
 else 
 
     MOUNT_FLAGS_RW=$(echo $MOUNTED | awk '{print $6}'|grep "rw" >/dev/null)
