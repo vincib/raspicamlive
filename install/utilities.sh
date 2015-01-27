@@ -98,7 +98,7 @@ spacer() {
 
 ## wraps apt-get
 apt_get() {
-    local PACKAGE
+    local PACKAGE="$1"
     local RES
     local CMD
     local APT_OPTIONS="2>/dev/null 1>/dev/null "
@@ -108,20 +108,16 @@ apt_get() {
         return 0
     fi;
     # Installing 
-    while (( "$#" )); do
-        PACKAGE="$1"
-        shift
-        dpkg-query -s "$PACKAGE" $APT_OPTIONS
-        RES=$?
-        # Skip : package installed
-        if [ 0 -eq $RES ]; then
-            [[ $DEBUG != 1 ]] || debug "%s already installed" $PACKAGE
-            continue;
-        fi
-        info "Installing %s" $PACKAGE
-        apt-get install -y $PACKAGE $APT_OPTIONS
+    dpkg-query -s "$PACKAGE" $APT_OPTIONS
+    RES=$?
+    # Skip : package installed
+    if [ 0 -eq $RES ]; then
+        [[ $DEBUG != 1 ]] || debug "%s already installed" $PACKAGE
+        continue;
+    fi
+    info "Installing %s" $PACKAGE
+    apt-get install -y $PACKAGE $APT_OPTIONS
 
-    done
 }
 
 
