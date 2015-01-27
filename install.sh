@@ -16,7 +16,7 @@ crash(){ echo $1; exit 1; }
 raw_apt(){ dpkg-query -s "$1" 2>/dev/null 1>/dev/null; [ 0 -eq $? ] || apt-get install -y "$1"; }
 
 # check_path
-[ "$(pwd)" == "/usr/local/lib/raspicamlive ] || crash "You must install this package in /usr/local/lib/raspicamlive. Exiting."
+[ "$(pwd)" == "/usr/local/lib/raspicamlive" ] || crash "You must install this package in /usr/local/lib/raspicamlive. Exiting."
 
 # check_is_root
 [ "root" == "$( whoami )" ] || crash "You must run this script as root. Exiting."
