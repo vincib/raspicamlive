@@ -170,8 +170,8 @@ service apache2 restart
 
 ## Configure daemon
 copy "$TMP_PATH/etc/init.d/streamer-daemon" /etc/init.d
-update-rc.d streamer_daemon defaults
-/etc/init.d/streamer_daemon start
+update-rc.d streamer-daemon defaults
+/etc/init.d/streamer-daemon start
 
 echo "Install completed. You can now try to reach the application on http://${PI_NAME}.local"
 
