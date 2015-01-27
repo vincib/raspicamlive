@@ -27,6 +27,8 @@ ping -c 1 -W 1 google.com 2>/dev/null >/dev/null
 RESULT=$?; 
 [ 0 -eq $RESULT ] || crash "You must have internet access. Exiting."
 
+# check aptitude update
+
 # Gettext is a hard dependancy, install it "raw style"
 raw_apt gettext
 
@@ -52,8 +54,6 @@ rsync -a "$APP_PATH/etc" "$TMP_PATH" > /dev/null
 
 DEB_MULTIMEDIA_SOURCE="/etc/apt/sources.list.d/deb.multimedia.list"
 copy "${TMP_PATH}${DEB_MULTIMEDIA_SOURCE}" "$DEB_MULTIMEDIA_SOURCE" 
-
-apt-get update
 
 # required packages
 apt_get sudo
@@ -109,7 +109,7 @@ if [ $? -ne 0 ] ; then
         *)
             edit_fstab "/dev/sda1"
         ;;
-
+    esac
 fi
 
 # Remount all disks
