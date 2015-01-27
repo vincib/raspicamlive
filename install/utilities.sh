@@ -106,7 +106,7 @@ apt_get() {
         return 0
     fi;
     # Installing 
-    dpkg-query -s "$PACKAGE" 2>/dev/null 1>/dev/null 
+    dpkg-query -s "$PACKAGE" 1>/dev/null 
     RES=$?
     # Skip : package installed
     if [ 0 -eq $RES ]; then
@@ -114,7 +114,7 @@ apt_get() {
         return 0
     fi
     info "Installing %s" $PACKAGE
-    apt-get install -y $PACKAGE 2>/dev/null 1>/dev/null 
+    apt-get install -y --force-yes $PACKAGE 1>/dev/null 
 
 }
 
