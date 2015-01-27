@@ -133,21 +133,20 @@ fi
 [ $? -eq 0 ] || warn "Could not create the /mnt/current directory. Troubles ahead."
 
 
+## Configure sudoers
+copy "$TMP_PATH/etc/sudoers.d/raspicamlive" /etc/sudoers.d/
 
 ## Configure PI network name
 PI_NAME="raspilive01"
 spacer
-misc "You will use the follwowing "name" to reach the website of the raspberry Pi." 
+misc "You will use the following "Network Name" to reach the website of the raspberry Pi." 
 misc "For example, a pi named 'mylive' will be locally accessible on http://mylive.local" 
 spacer
-ask "Please give your RaspberryPi network name (Default: raspilive01): "
+ask "Please give your RaspberryPi Network Name (Default: raspilive01): "
 read REPLY_PI_NAME
 [ -z $REPLY_PI_NAME ] || PI_NAME=$REPLY_PI_NAME
 replace "%PI_NAME%" "$PI_NAME" "$TMP_PATH/etc/hostname"
 copy "$TMP_PATH/etc/hostname" "/etc/hostname"
-
-## Configure sudoers
-copy "$TMP_PATH/etc/sudoers.d/raspicamlive" /etc/sudoers.d/
 
 ## Configure avahi
 
