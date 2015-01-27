@@ -111,7 +111,7 @@ apt_get() {
     while (( "$#" )); do
         PACKAGE="$1"
         shift
-        dpkg-query -s "$PACKAGE" 
+        dpkg-query -s "$PACKAGE" $APT_OPTIONS
         RES=$?
         # Skip : package installed
         if [ 0 -eq $RES ]; then
@@ -119,7 +119,7 @@ apt_get() {
             continue;
         fi
         info "Installing %s" $PACKAGE
-        apt-get install -y $PACKAGE 2>/dev/null 1>/dev/null
+        apt-get install -y $PACKAGE $APT_OPTIONS
 
     done
 }
