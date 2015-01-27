@@ -136,7 +136,12 @@ fi
 
 ## Configure PI network name
 PI_NAME="raspilive01"
-read -p "Please give your RaspberryPi network name (Default: raspilive01): " REPLY_PI_NAME
+spacer
+misc "You will use the follwowing "name" to reach the website of the raspberry Pi." 
+misc "For example, a pi named 'mylive' will be locally accessible on http://mylive.local" 
+spacer
+ask "Please give your RaspberryPi network name (Default: raspilive01): "
+read REPLY_PI_NAME
 [ -z $REPLY_PI_NAME ] || PI_NAME=$REPLY_PI_NAME
 replace "%PI_NAME%" "$PI_NAME" "$TMP_PATH/etc/hostname"
 copy "$TMP_PATH/etc/hostname" "/etc/hostname"
