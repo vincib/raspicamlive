@@ -50,7 +50,7 @@ rsync -a "$APP_PATH/etc" "$TMP_PATH" > /dev/null
 
 # Add Debian multimedia repository
 
-DEB_MULTIMEDIA_SOURCE="/etc/apt/sources.list.d/deb.multimedia.list "
+DEB_MULTIMEDIA_SOURCE="/etc/apt/sources.list.d/deb.multimedia.list"
 copy "${TMP_PATH}${DEB_MULTIMEDIA_SOURCE}" "$DEB_MULTIMEDIA_SOURCE" 
 
 apt-get update
