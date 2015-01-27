@@ -101,6 +101,8 @@ apt_get() {
     local PACKAGE
     local RES
     local CMD
+    local APT_OPTIONS="2>/dev/null 1>/dev/null "
+    [ $DEBUG -eq 0 ] || APT_OPTIONS=""
     if [[ $DRY_RUN = 1 ]] ; then
         debug "System should install %s" $@
         return 0
@@ -109,7 +111,7 @@ apt_get() {
     while (( "$#" )); do
         PACKAGE="$1"
         shift
-        dpkg-query -s "$PACKAGE" 2>/dev/null 1>/dev/null
+        dpkg-query -s "$PACKAGE" 
         RES=$?
         # Skip : package installed
         if [ 0 -eq $RES ]; then
