@@ -113,7 +113,7 @@ apt_get() {
     # Skip : package installed
     if [ 0 -eq $RES ]; then
         [[ $DEBUG != 1 ]] || debug "%s already installed" $PACKAGE
-        continue;
+        return 0
     fi
     info "Installing %s" $PACKAGE
     apt-get install -y $PACKAGE $APT_OPTIONS
