@@ -56,7 +56,7 @@ DEB_MULTIMEDIA_SOURCE="/etc/apt/sources.list.d/deb.multimedia.list"
 copy "${TMP_PATH}${DEB_MULTIMEDIA_SOURCE}" "$DEB_MULTIMEDIA_SOURCE" 
 
 # Add Debian multimedia repository key ring
-wget http://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2014.2_all.deb -o /tmp/deb-multimedia-keyring.deb
+wget http://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2014.2_all.deb -O /tmp/deb-multimedia-keyring.deb
 dpkg -i /tmp/deb-multimedia-keyring.deb
 
 # required packages
