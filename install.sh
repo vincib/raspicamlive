@@ -138,7 +138,7 @@ fi
 PI_NAME="raspilive01"
 read -p "Please give your RaspberryPi network name (Default: raspilive01): " REPLY_PI_NAME
 [ -z $REPLY_PI_NAME ] || PI_NAME=$REPLY_PI_NAME
-replace "%PI_NAME%" "PI_NAME" "$TMP_PATH/etc/hostname"
+replace "%PI_NAME%" "$PI_NAME" "$TMP_PATH/etc/hostname"
 copy "$TMP_PATH/etc/hostname" "/etc/hostname"
 
 ## Configure sudoers
@@ -146,7 +146,7 @@ copy "$TMP_PATH/etc/sudoers.d/raspicamlive" /etc/sudoers.d/
 
 ## Configure avahi
 
-replace "%PI_NAME%" "PI_NAME" "$TMP_PATH/etc/avahi/avahi-daemon.conf"
+replace "%PI_NAME%" "$PI_NAME" "$TMP_PATH/etc/avahi/avahi-daemon.conf"
 copy "$TMP_PATH/etc/avahi/avahi-daemon.conf" /etc/avahi/avahi-daemon.conf
 service avahi-daemon restart
 
