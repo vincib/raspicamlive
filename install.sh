@@ -9,6 +9,16 @@
 # Move current directory to project / install directory
 cd $(readlink -f $( dirname "${BASH_SOURCE[0]}" ))
 
+# Include utilities and own library
+
+source "install/utilities.sh"
+source "install/lib.sh"
+
+if [ ! -f "install/config.sh" ] ; then
+    cp "install/config.sh.dist" "install/config.sh"
+fi;
+source "install/config.sh"
+
 ## Performs checks
 
 # Raw functions
@@ -34,20 +44,10 @@ RESULT=$?;
 # Gettext is a hard dependancy, install it "raw style"
 raw_apt gettext
 
-# Firmware update
 
+# Firmware update
 info "Updating the firmware"
 rpi-update > /dev/null
-
-## Include utilities and own library
-
-source "install/utilities.sh"
-source "install/lib.sh"
-
-if [ ! -f "install/config.sh" ] ; then
-    cp "install/config.sh.dist" "install/config.sh"
-fi;
-source "install/config.sh"
 
 # Immediately rsync this package /etc templates 
 [ -d $TMP_PATH ] || mkdir -p  $TMP_PATH
