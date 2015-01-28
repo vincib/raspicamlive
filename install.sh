@@ -59,6 +59,9 @@ copy "${TMP_PATH}${DEB_MULTIMEDIA_SOURCE}" "$DEB_MULTIMEDIA_SOURCE"
 wget http://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2014.2_all.deb -O /tmp/deb-multimedia-keyring.deb
 dpkg -i /tmp/deb-multimedia-keyring.deb
 
+# Refresh
+apt-get update
+
 # required packages
 apt_get sudo
 apt_get avahi-daemon
@@ -178,3 +181,12 @@ update-rc.d streamer-daemon defaults
 
 info "Install completed. You can now try to reach the application on http://${PI_NAME}.local"
 
+# Reboot
+spacer
+ask "You should now reboot the Raspberry Pi. Reboot now? [Y/n]"
+read REBOOT
+case $DO_FORMAT in
+    [Nn] ) ;;
+    *) reboot;;
+esac
+ 

@@ -28,4 +28,4 @@ define("CAPTURE_FILE","/tmp/capture.jpg");
 // Where do we store capture settings
 define("CAPTURE_SETTINGS","/tmp/settings.json");
 // Where do we store current recording folder
-define("RECORDING_FOLDER","/tmp/current");
+define("RECORDING_FOLDER","/mnt/current");
