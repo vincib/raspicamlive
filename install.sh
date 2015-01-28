@@ -60,7 +60,8 @@ wget http://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multim
 dpkg -i /tmp/deb-multimedia-keyring.deb
 
 # Refresh
-apt-get update
+info "Refreshing apt cache"
+apt-get update > /dev/null
 
 # required packages
 apt_get sudo
@@ -90,7 +91,7 @@ if [ $? -ne 0 ] ; then
 # Partitioning disk if required
 else 
     PARTITION_TYPE=$(file -sL /dev/sda1 | sed -r 's/^(.*?)(ext[2-4])(.*?)$/\2/g')
-    if [ -z $PARTITION_TYPE ] ; then 
+    if [ -z "$PARTITION_TYPE" ] ; then 
         ask "Your USB disk is not valid. Would you like to format it now? [Y/n]"
         warn "This will remove all the data available on the disk."
         read DO_FORMAT
@@ -185,7 +186,7 @@ info "Install completed. You can now try to reach the application on http://${PI
 spacer
 ask "You should now reboot the Raspberry Pi. Reboot now? [Y/n]"
 read REBOOT
-case $DO_FORMAT in
+case $REBOOT in
     [Nn] ) ;;
     *) reboot;;
 esac

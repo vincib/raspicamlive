@@ -5,7 +5,9 @@
     */
 
 chdir(__DIR__);
-require_once("../www/common.php");
+$app_path = realpath(__DIR__."/../");
+
+require_once("$app_path/www/common.php");
 
 $options=getSettings();
 /*

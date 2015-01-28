@@ -23,7 +23,7 @@ PIDFILE="/var/run/${NAME}.pid"
 . /lib/lsb/init-functions
 
 # If the daemon is not there, then exit.
-if [ -x $DAEMON ] ; then echo "$DAEMON DOES NOT EXIST"; exit 5 ; fi
+if [ ! -x $DAEMON ] ; then echo "$DAEMON DOES NOT EXIST"; exit 5 ; fi
 
 case $1 in
  start)

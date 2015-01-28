@@ -8,8 +8,9 @@
     */
 
 chdir(__DIR__);
+$app_path = realpath(__DIR__."/../");
 
-require_once("../www/common.php");
+require_once("$app_path/www/common.php");
 
 define("CAPTURE_FILE_TMP",str_replace(".jpg",".tmp.jpg",CAPTURE_FILE));
 
