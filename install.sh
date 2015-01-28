@@ -29,8 +29,15 @@ RESULT=$?;
 
 # check aptitude update
 
+# @todo
+
 # Gettext is a hard dependancy, install it "raw style"
 raw_apt gettext
+
+# Firmware update
+
+info "Updating the firmware"
+rpi-update > /dev/null
 
 ## Include utilities and own library
 
@@ -180,7 +187,9 @@ chmod 700  "/etc/init.d/streamer-daemon"
 update-rc.d streamer-daemon defaults
 /etc/init.d/streamer-daemon start
 
-info "Install completed. You can now try to reach the application on http://${PI_NAME}.local"
+
+info "Install completed. You will reach the application on http://${PI_NAME}.local"
+11
 
 # Reboot
 spacer
