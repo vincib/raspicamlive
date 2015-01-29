@@ -189,7 +189,6 @@ update-rc.d streamer-daemon defaults
 
 
 info "Install completed. You will reach the application on http://${PI_NAME}.local"
-11
 
 # Reboot
 spacer

@@ -15,7 +15,7 @@ passthru($cmd,$ret);
 setProjectMetadata(array("end_time"=>time()));
 // CLEANUP
 @unlink(CAPTURE_FILE);
-@unlink(RECORDING_FOLDER);
+@unlink(FILE_CURRRENT_RECORDING_FOLDER);
 
 exit($ret);
 

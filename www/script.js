@@ -11,14 +11,20 @@ function updatecapture() {
     $.ajax({url: "action.php?action=updatecapture",
 	  dataType: "json",
 	  success: function(data) {
-	      if (data.lastcaptime > lastcaptime || data.lastcaptime==0) {
+              
+              
+              if( ! "code" in data || data.code !== 0){
+                  $("#notifications").html(data.message);
+              }
+              var payload=data.payload;
+	      if (payload.lastcaptime > lastcaptime || payload.lastcaptime==0) {
 		  if ($("#lastcap")) {
 		      d = new Date();
 		      $("#lastcap").attr("src","lastcap.php?"+d.getTime());
-		      lastcaptime=data.lastcaptime;
+		      lastcaptime=payload.lastcaptime;
 		  }
 	      }
-	      if (data.isrecording) {
+	      if (payload.isrecording) {
 		  if ($("#recordingstatus").attr("src")=="assets/record.png") {
 		      $("#recordingstatus").attr("src","assets/norecord.png");
 		  } else {
@@ -27,16 +33,16 @@ function updatecapture() {
 	      } else {
 		  $("#recordingstatus").attr("src","assets/stop.png");
 	      }
-	      if (data.storagesize) {
+	      if (payload.storagesize) {
 		  if ($("#storagesize")) {
-		      $("#storagesize").html(data.storagesize);
-		      $("#storageused").html(data.storageused);
-		      $("#storageavail").html(data.storageavail);
+		      $("#storagesize").html(payload.storagesize);
+		      $("#storageused").html(payload.storageused);
+		      $("#storageavail").html(payload.storageavail);
 		  }
 	      }
-	      if (data.currentproject) {
+	      if (payload.currentproject) {
 		  if ($("#currentproject")) {
-		      $("#currentproject").html(data.currentproject);
+		      $("#currentproject").html(payload.currentproject);
 		  }
 	      }
 	      // redoit in 5 seconds ;) 

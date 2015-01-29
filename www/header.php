@@ -43,7 +43,9 @@
                 </nav>
             </div>
         </header>
-
+        <div id="notifications-wrapper">
+            <div id="notifications"></div>
+        </div>
           <div class="container bs-docs-container">
 
 

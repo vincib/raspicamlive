@@ -2,23 +2,60 @@
 
 require_once("common.php");
 
+class AjaxResponse {
+    
+    static function send($options ){
+
+        // Attempts to retrieve code
+        if (isset($options["code"]) && ! is_null($options["code"])) {
+            $code = $options["code"];
+        } else {
+            $code = 0;
+        }
+
+        // Attempts to retrieve message|
+        if (isset($options["message"]) && ! is_null($options["message"])) {
+            $message = $options["message"];
+        } else {
+            $message = "OK";
+        }
+
+        // Attempts to retrieve payload
+        if (isset($options["payload"]) && is_array($options["payload"])) {
+            $payload = $options["payload"];
+        } else {
+            $payload = array();
+        }
+
+        die (json_encode(array(
+            "code" => $code,
+            "message" => $message,
+            "payload" => $payload
+
+        )));
+    }
+}
 switch ($_REQUEST["action"]) {
 
   // Return a json telling when was taken the last capture and if we are recording (for display purpose on the web page)
 case "updatecapture":
   header("Content-Type: application/json");
-  $result=array(
-			 "isrecording" => isrecording(),
-			 "lastcaptime" => @filemtime(CAPTURE_FILE),
-			 "currentproject" => @file_get_contents(RECORDING_FOLDER)
-		);
+    
+  $payload=array(
+    "isrecording" => isRecording(),
+    "lastcaptime" => @filemtime(CAPTURE_FILE),
+    "currentproject" => @file_get_contents(FILE_CURRRENT_RECORDING_FOLDER)
+  );
   $storage=getStorageSpace(); // size used avail in MB
   if (count($storage)==3) {
-    $result["storagesize"]=$storage[0];
-    $result["storageused"]=$storage[1];
-    $result["storageavail"]=$storage[2];
+    $payload["storagesize"]=$storage[0];
+    $payload["storageused"]=$storage[1];
+    $payload["storageavail"]=$storage[2];
   }
-  echo json_encode($result);
+  
+  die( AjaxResponse::send(array(
+      "payload" => $payload
+  )));
   break;
 
   // Start the recording on the PI

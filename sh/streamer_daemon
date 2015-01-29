@@ -16,7 +16,7 @@ require_once("../www/common.php");
 $current_project="";
 
 while (true) {
-  $project=@file_get_contents(RECORDING_FOLDER);
+  $project=@file_get_contents(FILE_CURRRENT_RECORDING_FOLDER);
   if ($project!=$current_project) {
     // New project, purge STORAGEPATH/current
     $d=opendir(STORAGEPATH."/current");
@@ -29,9 +29,12 @@ while (true) {
   }
 
   if (!$project) {
+    echo "nothing to do\n";
     sleep(5);
     continue;
-  }
+  } 
+
+  echo "opening $project\n";
 
   // hardlink to files in current project written less than a minute ago.
   $d=opendir(STORAGEPATH."/".$current_project);

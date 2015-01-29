@@ -19,27 +19,41 @@ function isRecording() {
 }
 
 function startRecording() {
+  global $app_path;
   if (isRecording()) {
-    return E_ALREADY;
+    return ERR_ALREADY;
   }
-  exec("sudo ${app_path}/sh/start_recording");
+  exec("sudo ${app_path}/sh/start_recording",$output,$return_var);
+  
+  if( 0 !== $return_var ){
+      // todo log ôutput
+      return ERR_FATAL;
+  }
+  
   if (isRecording()) {
-    return E_OK;
+    return ERR_OK;
   } else {
-    return E_FATAL;
+    return ERR_FATAL;
   }  
 }
 
 function stopRecording() {
+  global $app_path;
+
   if (!isRecording()) {
-    return E_ALREADY;
+    return ERR_ALREADY;
   }
-  exec("sudo ${app_path}/sh/stop_recording");
+  exec("sudo ${app_path}/sh/stop_recording",$output,$return_var);
+  
+  if( 0 !== $return_var ){
+      // todo log ôutput
+      return ERR_FATAL;
+  }
   sleep(1);
   if (!isRecording()) {
-    return E_OK;
+    return ERR_OK;
   } else {
-    return E_FATAL;
+    return ERR_FATAL;
   }  
 }
 
@@ -59,11 +73,8 @@ function setSettings($options=array()) {
     }
   }
   file_put_contents(CAPTURE_SETTINGS,json_encode($settings));
-
-  if (getmyuid()==0) { 
-    chown(CAPTURE_SETTINGS,"www-data");
-    chmod(CAPTURE_SETTINGS,0666);
-  }
+  chown(CAPTURE_SETTINGS,"www-data");
+  chmod(CAPTURE_SETTINGS,0666);
 }
 
 /**
@@ -83,7 +94,7 @@ function getNewRecordingFolder() {
 }
 
 function setProjectMetadata($meta,$project="") {
-  if (!$project) $project=file_get_contents(RECORDING_FOLDER);
+  if (!$project) $project=file_get_contents(FILE_CURRRENT_RECORDING_FOLDER);
   if (!$project) return false;
   $f=fopen(STORAGEPATH."/".$project."/.meta.json.lock","ab");
   if (flock($f, LOCK_EX)) {
@@ -103,7 +114,7 @@ function setProjectMetadata($meta,$project="") {
 }
 
 function getProjectMetadata($project="") {
-  if (!$project) $project=file_get_contents(RECORDING_FOLDER);
+  if (!$project) $project=file_get_contents(FILE_CURRRENT_RECORDING_FOLDER);
   if (!$project) return false;
   $f=fopen(STORAGEPATH."/".$project."/.meta.json.lock","ab");
   if (flock($f, LOCK_EX)) {
