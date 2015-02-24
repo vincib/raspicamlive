@@ -4,10 +4,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <script type="application/javascript" src="js/jquery-1.11.1.min.js"></script>
         <script type="application/javascript" src="js/bootstrap.min.js"></script>
-        <script type="application/javascript" src="script.js"></script>
+        <script type="application/javascript" src="js/app.js"></script>
 
         <title>Raspicam live</title>
 
@@ -25,27 +24,30 @@
                 </div>
                 <nav class="collapse navbar-collapse bs-navbar-collapse">
                     <ul class="nav navbar-nav">
-   <li<?php if ($_SERVER["REQUEST_URI"]=="/") echo ' class="active"'; ?>>
+                        <li<?php if ($_SERVER["REQUEST_URI"] == "/") echo ' class="active"'; ?>>
                             <a href="/">Capture</a>
                         </li>
-		<li<?php if ($_SERVER["REQUEST_URI"]=="/storage.php") echo ' class="active"'; ?>>
-		<a href="/storage.php">Storage</a>
+                        <li<?php if ($_SERVER["REQUEST_URI"] == "/storage.php") echo ' class="active"'; ?>>
+                            <a href="/?action=storage">Storage</a>
                         </li>
-			     <li<?php if ($_SERVER["REQUEST_URI"]=="/settings.php") echo ' class="active"'; ?>>
-		<a href="/settings.php">Settings</a>
+                        <li<?php if ($_SERVER["REQUEST_URI"] == "/settings.php") echo ' class="active"'; ?>>
+                            <a href="/?action=settings">Settings</a>
                         </li>
                     </ul>
-<!-- 
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="http://www.tmplab.org/wiki/index.php/Streaming_Video_With_RaspberryPi">RaspiCam Live Website</a></li>
-                    </ul>
- -->
+                    <!-- 
+                                        <ul class="nav navbar-nav navbar-right">
+                                            <li><a href="http://www.tmplab.org/wiki/index.php/Streaming_Video_With_RaspberryPi">RaspiCam Live Website</a></li>
+                                        </ul>
+                    -->
                 </nav>
             </div>
         </header>
         <div id="notifications-wrapper">
             <div id="notifications"></div>
         </div>
-          <div class="container bs-docs-container">
+        <div class="container bs-docs-container">
 
-
+            <?= $__action_output ?>
+        </div>
+    </body>
+</html>

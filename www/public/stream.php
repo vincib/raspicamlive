@@ -1,6 +1,6 @@
 <?php
 
-require_once("common.php");
+require_once("../common.php");
 
 /**
  * Command line script which takes files in a folder and reads them as they arrive

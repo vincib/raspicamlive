@@ -4,11 +4,10 @@ function capturepage() {
     updatecapture();
 }
 
-
 var lastcaptime=0;
 
 function updatecapture() {
-    $.ajax({url: "action.php?action=updatecapture",
+    $.ajax({url: "/?action=updatecapture",
 	  dataType: "json",
 	  success: function(data) {
               
@@ -19,8 +18,8 @@ function updatecapture() {
               var payload=data.payload;
 	      if (payload.lastcaptime > lastcaptime || payload.lastcaptime==0) {
 		  if ($("#lastcap")) {
-		      d = new Date();
-		      $("#lastcap").attr("src","lastcap.php?"+d.getTime());
+		      var d = new Date();
+		      $("#lastcap").attr("src","/?a=lastcap&t="+d.getTime());
 		      lastcaptime=payload.lastcaptime;
 		  }
 	      }
@@ -52,7 +51,7 @@ function updatecapture() {
 }
 
 function start_recording() {
-    $.ajax({url: "action.php?action=startrecording",
+    $.ajax({url: "/?action=startrecording",
 	    success: function(data) {
 		$("#lastcommand").html(data);
 	    }
@@ -60,7 +59,7 @@ function start_recording() {
 }
 
 function stop_recording() {
-    $.ajax({url: "action.php?action=stoprecording",
+    $.ajax({url: "/?action=stoprecording",
 	    success: function(data) {
 		$("#lastcommand").html(data);
 	    }
@@ -69,7 +68,7 @@ function stop_recording() {
 
 
 function save_title() {
-    $.ajax({url: "action.php?action=savetitle",
+    $.ajax({url: "/?action=savetitle",
 	    data: {"rectitle": $("#rectitle").val() },
 	    success: function(data) {
 		$("#savedtitle").html(data);
@@ -81,7 +80,7 @@ function save_title() {
 
 function reboot() {
     if (confirm("Are you sure you want to REBOOT the raspilive cam?")) {
-	$.ajax({url: "action.php?action=reboot",
+	$.ajax({url: "/?action=reboot",
 		success: function(data) {
 		    $("#lastcommand").html(data);
 		}
@@ -91,7 +90,7 @@ function reboot() {
 
 function shutdown() {
     if (confirm("Are you sure you want to SHUTDOWN the raspilive cam?")) {
-	$.ajax({url: "action.php?action=shutdown",
+	$.ajax({url: "/?action=shutdown",
 		success: function(data) {
 		    $("#lastcommand").html(data);
 		}
