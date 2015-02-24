@@ -1,13 +1,13 @@
 <VirtualHost *:80>
         ServerAdmin webmaster@localhost
 
-        DocumentRoot /usr/local/lib/raspicamlive/www
+        DocumentRoot /usr/local/lib/raspicamlive/www/public
         <Directory />
                 Options FollowSymLinks
                 AllowOverride None
         </Directory>
 
-        <Directory /usr/local/lib/raspicamlive/www>
+        <Directory /usr/local/lib/raspicamlive/www/public>
                 Options Indexes FollowSymLinks MultiViews
                 AllowOverride None
                 Order allow,deny
