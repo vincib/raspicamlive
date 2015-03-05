@@ -62,13 +62,13 @@ class Controller {
                     header("Content-Type: text/plain; charset=UTF-8");
                     $recording_status = $this->recorder->startRecording();
                     switch ($recording_status) {
-                        case ERR_OK:
+                        case Recorder::ERR_OK:
                             echo "Recording started";
                             break;
-                        case ERR_ALREADY:
+                        case Recorder::ERR_ALREADY:
                             echo "Already recording";
                             break;
-                        case ERR_FATAL:
+                        case Recorder::ERR_FATAL:
                             echo "Error launching the recording";
                             break;
                     }
