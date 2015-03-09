@@ -3,7 +3,7 @@
 try {
 
     require_once "../common.php";
-    $controller = new Controller();
+    $controller = new Controller($logger, $recorder);
     $controller->run();
     
 } catch (\Exception $exception) {

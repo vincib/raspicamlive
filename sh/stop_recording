@@ -12,10 +12,11 @@ sleep(1);
 $cmd="start-stop-daemon --oknodo --stop --pidfile ".escapeshellarg(RASPIVID_PID);
 passthru($cmd,$ret);
 
-setProjectMetadata(array("end_time"=>time()));
+$recorder->setProjectMetadata(array("end_time"=>time()));
+
 // CLEANUP
-@unlink(CAPTURE_FILE);
-@unlink(FILE_CURRRENT_RECORDING_FOLDER);
+unlink(CAPTURE_FILE);
+unlink(FILE_CURRENT_PROJECT);
 
 exit($ret);
 

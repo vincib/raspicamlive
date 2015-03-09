@@ -10,3 +10,5 @@ function __autoload($class_name) {
     require_once $filename;
 }
 
+$logger = new Logger("raspicam.log", Logger::INFO, "/tmp/");
+$recorder = new Recorder( $logger );

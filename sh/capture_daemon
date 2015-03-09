@@ -3,21 +3,23 @@
    /**
     * Capture the video in a new folder in STORAGEPATH
     */
+   try {
+    
 
 chdir(__DIR__);
 $app_path = realpath(__DIR__."/../");
 
 require_once("$app_path/www/common.php");
 
-$options=getSettings();
+$options = $recorder->getSettings();
 
-$folder=getNewRecordingFolder();
+$folder_name = $recorder->getNewRecordingFolder();
 
-file_put_contents(FILE_CURRRENT_RECORDING_FOLDER,$folder);
+file_put_contents(FILE_CURRENT_PROJECT,$folder_name);
 
-mkdir(STORAGEPATH."/".$folder);
+mkdir(STORAGEPATH."/".$folder_name);
 
-setProjectMetadata(array("start_time"=>time()));
+$recorder->setProjectMetadata(array("start_time"=>time()));
 
 $audiocmd="";
 
@@ -27,9 +29,15 @@ if ($options["audiosource"]) {
 $cmd="/usr/bin/raspivid -ih -fps ".intval($options["fps"])." -t 0 -w ".intval($options["width"])." -h ".intval($options["height"])." -b ".intval($options["videobitrate"]*1000)." -pf baseline -o - |
 /usr/local/bin/ffmpeg $audiocmd -i - -vcodec copy -f segment -segment_list out.list -segment_list_flags +live -segment_list_size 5 -segment_time 4 -segment_time_delta 3 %9d.ts 2>&1 >> /tmp/capture.log";
 
-chdir(STORAGEPATH."/".$folder);
+echo $cmd;
+chdir(STORAGEPATH."/".$folder_name);
 
 exec($cmd,$out,$ret);
 
 // This process wait for the kill signal from start-stop-daemon (start_recording / stop_recording)
 
+} catch (Exception $exc) {
+    echo $exc->getMessage();
+    echo "\n";
+    echo $exc->getTraceAsString();
+}

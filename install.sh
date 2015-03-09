@@ -79,6 +79,11 @@ apt_get libmp3lame-dev
 apt_get libvpx-dev
 apt_get libx264-dev
 
+## Check group rights
+
+# www-data needs to be a member of the video group
+usermod -G video www-data
+
 ## Configure disk
 PI_STORAGE="/mnt"
 info "Checking USB disk presence"

@@ -11,12 +11,16 @@ class Controller {
      */
     protected $recorder;
 
+    /** @var Logger */
+    private $logger;
+
     /**
      * 
      */
-    function __construct() {
+    function __construct( Logger $logger, Recorder $recorder ) {
         $this->layout = "default.php";
-        $this->recorder = new Recorder();
+        $this->recorder = $recorder;
+        $this->logger = $logger;
     }
 
     /**
@@ -60,6 +64,7 @@ class Controller {
                 // Start the recording on the PI
                 case "startrecording":
                     header("Content-Type: text/plain; charset=UTF-8");
+                    $this->logger->debug("Start recording");
                     $recording_status = $this->recorder->startRecording();
                     switch ($recording_status) {
                         case Recorder::ERR_OK:
@@ -79,13 +84,13 @@ class Controller {
                     header("Content-Type: text/plain; charset=UTF-8");
                     $recording_status = $this->recorder->stopRecording();
                     switch ($recording_status) {
-                        case ERR_OK:
+                        case Recorder::ERR_OK:
                             echo "Recording stopped";
                             break;
-                        case ERR_ALREADY:
+                        case Recorder::ERR_ALREADY:
                             echo "I am not recording";
                             break;
-                        case ERR_FATAL:
+                        case Recorder::ERR_FATAL:
                             echo "Error stopping the recording";
                             break;
                     }
@@ -188,7 +193,7 @@ class Controller {
     function render($view, $variables = array()) {
 
         ob_start();
-        $filename = APP_ROOT . "/views/scripts/${view}.php";
+        $filename = WEB_ROOT . "/views/scripts/${view}.php";
         if (!is_readable($filename)) {
             throw new \Exception("Could not render view ${view}, ${filename} does not exist or is not readable.");
         }
@@ -199,7 +204,7 @@ class Controller {
         if ($this->noLayout) {
             die($__action_output);
         }
-        $layout = APP_ROOT . "/views/layout/" . $this->layout;
+        $layout = WEB_ROOT . "/views/layout/" . $this->layout;
         if (!is_readable($layout)) {
             throw new \Exception("Could not render layout, ${layout} does not exist or is not readable.");
         }
@@ -214,4 +219,5 @@ class Controller {
         AjaxResponse::send($response);
     }
 
+    
 }

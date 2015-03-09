@@ -7,7 +7,9 @@ define("STORAGEPATH","/mnt");
 // Where do we have available storage? 
 define("MOUNTDRIVE","/dev/sda1");
 // Where is the www folder
-define("APP_ROOT",__DIR__);
+define("WEB_ROOT",__DIR__);
+// Where is the raspicam folder
+define("APP_ROOT",  realpath(__DIR__."/../"));
 
 // rsync login and password for *stream* share
 $rsync_login="pi";
@@ -23,4 +25,5 @@ define("CAPTURE_SETTINGS","/tmp/settings.json");
 // Where do we store current recording folder
 define("RECORDING_FOLDER","/mnt/current");
 // Where do we store current recording folder
-define("FILE_CURRRENT_RECORDING_FOLDER","/mnt/current_recording");
+define("FILE_CURRENT_PROJECT","/mnt/current_recording");
+

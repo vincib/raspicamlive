@@ -22,6 +22,28 @@ class Recorder {
         "audiosource" => "", // alsa audio source ("" for no audio)
         "audiobitrate" => "128", // in kbps
     );
+    
+    /** @var Logger */
+    private $logger;
+
+    /**
+     * @param Logger logger
+     */
+    public function setLogger($logger) {
+        $this->logger = $logger;
+        return $this;
+    }
+
+    /**
+     * @return Logger
+     */
+    public function getLogger() {
+        return $this->logger;
+    }
+
+    function __construct( Logger $logger ) {
+        $this->logger = $logger;
+    }
 
     /**
      *
@@ -74,7 +96,13 @@ class Recorder {
      */
     function getProjectMetadata($project = "") {
 
-        $this->getProjectName($project);
+        $project = $this->getProjectName($project);
+        $metadata_file = $this->getMetadataFileName($project);
+        if( ! is_file( $metadata_file)){
+            touch($metadata_file);
+            $this->fixPerms($metadata_file);
+            file_put_contents($metadata_file,"{}");
+        }
         
         if( !$this->project){
             return array();
@@ -82,13 +110,13 @@ class Recorder {
 
         // Files used to lock & write
         $lock_file = STORAGEPATH . "/" . $this->project . "/.meta.json.lock";
-        $metadata_file = STORAGEPATH . "/" . $this->project . "/meta.json";
 
         // Put a lock
         $metadataFileHandle = fopen($lock_file, "ab");
 
+        
         // Failed to lock
-        if (!flock($metadataFileHandle, LOCK_EX)) {
+        if ( !is_resource($metadataFileHandle) || !flock($metadataFileHandle, LOCK_EX)) {
             throw new \Exception("Could not put a lock on ${lock_file}.");
         }
 
@@ -102,6 +130,27 @@ class Recorder {
         return $metadata;
     }
 
+    /**
+     * 
+     * @param string $project
+     * @return string
+     */
+    function getMetadataFileName( $project = "" ){
+        
+        if( ! $project){
+            $project = $this->getProjectName();
+            if( ! $this->project){
+                return "";
+            }else{
+                $project = $this->project;
+            }
+        }
+        
+        
+        return STORAGEPATH . "/" . $this->project . "/meta.json";
+
+    }
+    
     /**
      * Gets project by parameter or by opening file on disk
      * 
@@ -119,10 +168,10 @@ class Recorder {
             }
 
             // Attempt to read from file 
-            if (!is_readable(FILE_CURRRENT_RECORDING_FOLDER)) {
-                $this->fixPerms(FILE_CURRRENT_RECORDING_FOLDER);
+            if (!is_readable(FILE_CURRENT_PROJECT)) {
+                $this->fixPerms(FILE_CURRENT_PROJECT);
             }
-            $project = file_get_contents(FILE_CURRRENT_RECORDING_FOLDER);
+            $project = file_get_contents(FILE_CURRENT_PROJECT);
         }
 
         // Failed to read project
@@ -145,7 +194,7 @@ class Recorder {
 
         // Attempt to set default settings if none available
         if (!is_file(CAPTURE_SETTINGS)) {
-            setSettings();
+            $this->setSettings();
         }
 
         if (!is_readable(CAPTURE_SETTINGS)) {
@@ -207,6 +256,9 @@ class Recorder {
      */
     function jsonDecode($filename, $allow_empty_file = FALSE) {
 
+        if( !is_file($filename)){
+            throw new \Exception("File ${filename}.does not exist, cannot decode json.");
+        }
         // Fix permissions if necessary
         if (!is_readable($filename)) {
             $this->fixPerms($filename);
@@ -242,11 +294,12 @@ class Recorder {
      */
     function setProjectMetadata($meta, $project = "") {
 
-        // Retrieve metadata
-        $metadata = $this->getProjectMetadata($project);
 
         // File to write to
         $metadata_file = STORAGEPATH . "/" . $this->project . "/meta.json";
+
+        // Retrieve metadata
+        $metadata = $this->getProjectMetadata($project);
 
         // Set metadata
         foreach ($meta as $key => $val) {
@@ -271,18 +324,22 @@ class Recorder {
             return self::ERR_ALREADY;
         }
 
+        $cmd = "sudo " . APP_ROOT . "/sh/start_recording";
         // Attempt to run bash start command
-        exec("sudo " . APP_ROOT . "/sh/start_recording", $output, $return_var);
-
+        exec( $cmd, $output, $return_var);
+        
         // Failed ?
         if (0 !== $return_var) {
+            
             // todo log ôutput
+            $this->logger->fatal("errcode:".$return_var." cmd: $cmd output:".print_r($output,1));
             return self::ERR_FATAL;
         }
 
         if ($this->isRecording()) {
             return self::ERR_OK;
         } else {
+            $this->logger->fatal("errcode:".$return_var." cmd: $cmd output:".print_r($output,1));
             return self::ERR_FATAL;
         }
     }
@@ -319,12 +376,13 @@ class Recorder {
             return self::ERR_ALREADY;
         }
 
+        $cmd = "sudo " . APP_ROOT . "/sh/stop_recording";
         // Attempt to run bash stop command
-        exec("sudo " . APP_ROOT . "/sh/stop_recording", $output, $return_var);
-
+        exec( $cmd, $output, $return_var);
+        
         // Failed ?
         if (0 !== $return_var) {
-            // todo log ôutput
+            $this->logger->fatal("errcode:".$return_var." cmd: $cmd output:".print_r($output,1));
             return self::ERR_FATAL;
         }
 
@@ -335,6 +393,7 @@ class Recorder {
         if (!$this->isRecording()) {
             return self::ERR_OK;
         } else {
+            $this->logger->fatal("errcode:".$return_var." cmd: $cmd output:".print_r($output,1));
             return self::ERR_FATAL;
         }
     }

@@ -16,7 +16,7 @@ require_once("../www/common.php");
 $current_project="";
 
 while (true) {
-  $project=@file_get_contents(FILE_CURRRENT_RECORDING_FOLDER);
+  $project=@file_get_contents(FILE_CURRENT_PROJECT);
   if ($project!=$current_project) {
     // New project, purge STORAGEPATH/current
     $d=opendir(STORAGEPATH."/current");

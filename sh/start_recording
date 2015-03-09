@@ -11,5 +11,6 @@ $cmd="start-stop-daemon --start --pidfile ".escapeshellarg(RASPIVID_PID)
   ."$app_path/sh/capture_daemon 2>&1";
   
   passthru($cmd,$ret);
+  echo $cmd;
   exit($ret);
 
